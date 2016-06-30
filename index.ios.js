@@ -4,30 +4,43 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text
+  Text,
+  View,
+  NavigatorIOS
 } from 'react-native';
+import SearchPage from './SearchPage';
+
+const { Component} = React;
 
 const styles = StyleSheet.create({
   text:{
     color:'red',
     backgroundColor:'white',
     fontSize:30,
-    margin:80}
+    margin:80
+  },
+  container:{
+    flex:1
+  }
 });
 
-class ReactNativePropertyFinder extends Component {
-  render() {   
-      //return React.createElement(React.Text,{style: styles.text},"Hello World!");
-      return (
-        <Text style={styles.text}>
-          Hello World!
-        </Text>);
+
+
+class ReactNativePropertyFinder extends Component{
+  render(){
+    return (<NavigatorIOS 
+      style={styles.container}
+      initialRoute = {{
+        title:'Property Finder',
+        component:SearchPage
+      }}/>
+    );
   }
 }
 
 
-AppRegistry.registerComponent('ReactNativePropertyFinder',()=>(return ReactNativePropertyFinder);
+AppRegistry.registerComponent('ReactNativePropertyFinder',function(){return ReactNativePropertyFinder});
