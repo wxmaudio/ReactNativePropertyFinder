@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 
 
 class ReactNativePropertyFinder extends Component{
+ 
   render(){
     return (<NavigatorIOS 
       style={styles.container}
