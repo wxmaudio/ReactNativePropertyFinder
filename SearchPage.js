@@ -11,6 +11,8 @@ import {
 	ActivityIndicatorIOS
 } from 'react-native';
 
+import SearchResults from './SearchResults';
+
 const styles = StyleSheet.create({
   description:{
     marginBottom:20,
@@ -89,10 +91,37 @@ class SearchPage extends React.Component{
 	onChange(e){
 		this.setState({searchString:e.nativeEvent.text});
 	}
+
+	_handleResponse(res){
+		console.log(res);
+		let response = res.response;
+		this.setState({isLoading:false,message:''});
+		if(response.application_response_code.substr(0,1) === '1'){
+			//console.log('Properties found:'+response.listings.length);
+			this.props.navigator.push({
+				title:'Result',
+				component:SearchResults,
+				passProps:{listings:response.listings}
+			});	
+		}else{
+			this.setState({message:'Location not recognized;'});
+		}
+	}
+
 	_executeQuery(query){
 		console.log(query);
+
+		fetch("http://api.nestoria.co.uk/api?country=uk&pretty=1&encoding=json&listing_type=buy&action=search_listings&page=1&place_name=London")
+		.then(res => res.json())
+		.then(json => this._handleResponse(json))
+		.catch(error=> this.setState({
+			isLoading:false,
+			message:'Something bad happened:'+error
+		}));
+
 		this.state.isLoading = true;
 	}
+
 	onSearchPressed(){
 		var query = urlForQueryAndPage('place_name',this.state.searchString,1);
 		this._executeQuery(query);
