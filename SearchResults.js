@@ -1,5 +1,3 @@
-'use strict';
-
 import React,{Component} from 'react';
 import {View,
 	Text,
@@ -7,6 +5,8 @@ import {View,
 	StyleSheet,
 	ListView,
 	TouchableHighlight} from 'react-native';
+
+import PropertyView from './PropertyView';
 
 var styles = StyleSheet.create({
   thumb:{
@@ -56,6 +56,12 @@ class SearchResults extends Component{
 	}
 	rowPressed(propertyGuid){
 		var property = this.props.listings.filter((pro)=>pro.guid === propertyGuid)[0];
+
+		this.props.navigator.push({
+			title:'Property',
+			component:PropertyView,
+			passProps:{property:property}
+		});
 	}
 	render(){
 		return (
